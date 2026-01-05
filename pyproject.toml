@@ -1,0 +1,36 @@
+[project]
+name = "pureplot"
+version = "0.1.0"
+description = "Pure, opinionated matplotlib wrapper with Catppuccin aesthetics"
+authors = [{name = "lolosioann"}]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib>=3.7",
+    "numpy>=1.24",
+    "catppuccin>=2.0.0",
+]
+license = {text = "MIT"}
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.1",
+]
+
+[project.urls]
+Repository = "https://github.com/lolosioann/pureplot"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "I"]  # Errors, style, imports
+exclude = ["__pycache__", ".venv", "build"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+addopts = "-v"
