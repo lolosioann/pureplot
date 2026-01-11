@@ -1,17 +1,17 @@
-# primitives/scatter.py
+# primitives/line.py
 
 from typing import Any
 
 import numpy as np
 from matplotlib.axes import Axes
-from matplotlib.collections import PathCollection
+from matplotlib.lines import Line2D
 from numpy.typing import ArrayLike
 
 from .interface import DrawResult, plot_template
 from .result import PlotResult
 
 
-def _draw_scatter(
+def _draw_line(
     ax: Axes,
     x: np.ndarray,
     y: np.ndarray,
@@ -19,26 +19,26 @@ def _draw_scatter(
     colors: list[str],
     *,
     color: str | None,
-    size: float | ArrayLike,
+    linewidth: float,
     alpha: float,
     **kwargs: Any,
 ) -> DrawResult:
-    """Draw scatter plot on axes."""
+    """Draw line plot on axes."""
     plot_color = color if color is not None else colors[0]
 
-    handle: PathCollection = ax.scatter(
+    handle: Line2D = ax.plot(
         x,
         y,
-        c=plot_color,
-        s=size,
+        color=plot_color,
+        linewidth=linewidth,
         alpha=alpha,
         **kwargs,
-    )
+    )[0]
 
     return handle, plot_color
 
 
-def scatter(
+def line(
     x: ArrayLike,
     y: ArrayLike,
     *,
@@ -46,13 +46,14 @@ def scatter(
     xlabel: str | None = None,
     ylabel: str | None = None,
     color: str | None = None,
-    size: float | ArrayLike = 50,
-    alpha: float = 0.7,
+    linewidth: float = 2.0,
+    alpha: float = 1.0,
     figsize: tuple[float, float] | None = None,
     **kwargs: Any,
 ) -> PlotResult:
+    """Create a line plot."""
     return plot_template(
-        _draw_scatter,
+        _draw_line,
         x=x,
         y=y,
         title=title,
@@ -60,7 +61,7 @@ def scatter(
         ylabel=ylabel,
         figsize=figsize,
         color=color,
-        size=size,
+        linewidth=linewidth,
         alpha=alpha,
         **kwargs,
     )
